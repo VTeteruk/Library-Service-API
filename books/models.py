@@ -3,8 +3,8 @@ from django.db import models
 
 class Book(models.Model):
     class CoverTypeChoices(models.TextChoices):
-        HARD = "H", "Hard"
-        SOFT = "S", "Soft"
+        HARD = "Hard"
+        SOFT = "Soft"
 
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
