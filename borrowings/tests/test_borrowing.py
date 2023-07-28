@@ -17,14 +17,14 @@ def create_simple_borrowing(user, actual_return_date) -> Borrowing:
     return Borrowing.objects.create(
         expected_return_date=datetime.now(),
         actual_return_date=actual_return_date,
-        book_id=Book.objects.create(
+        book=Book.objects.create(
             title="test",
             author="test",
             cover="SOFT",
             inventory=1,
             daily_fee=2.99,
         ),
-        user_id=user
+        user=user
     )
 
 
@@ -102,7 +102,7 @@ class AuthenticatedBorrowingTest(TestCase):
         )
         borrowing = {
             "expected_return_date": datetime.now(),
-            "book_id": 1
+            "book": 1
         }
         response = self.client.post(BORROWING_LIST_URL, borrowing)
 
