@@ -13,8 +13,8 @@ class BorrowingListView(generics.ListCreateAPIView):
     def get_queryset(self) -> QuerySet:
         queryset = self.queryset
         if not self.request.user.is_staff:
-            queryset = Borrowing.objects.filter(user_id=self.request.user.id)
-        return queryset
+            queryset = queryset.filter(user_id=self.request.user.id)
+        return queryset.all()
 
 
 class BorrowingDetailView(generics.RetrieveAPIView):
