@@ -1,6 +1,6 @@
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import QuerySet
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from borrowings.models import Borrowing
 from borrowings.serializers import BorrowingSerializer, BorrowingDetailSerializer
 
@@ -8,6 +8,7 @@ from borrowings.serializers import BorrowingSerializer, BorrowingDetailSerialize
 class BorrowingListView(generics.ListCreateAPIView):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self) -> QuerySet:
         queryset = self.queryset
