@@ -31,7 +31,7 @@ class BorrowingSerializer(serializers.ModelSerializer):
         book.inventory -= 1
         book.save()
 
-        send_notification(validated_data.get("expected_return_date"), book.__str__())
+        send_notification(validated_data.get("expected_return_date"), str(book))
 
         return Borrowing.objects.create(**validated_data)
 
