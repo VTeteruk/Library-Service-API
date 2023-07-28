@@ -80,7 +80,4 @@ class AdminBookTest(TestCase):
         }
 
         response = self.client.post(BOOK_LIST_URL, book)
-
-        print(response.data)
-
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
