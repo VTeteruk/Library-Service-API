@@ -1,9 +1,10 @@
+from django.contrib.auth import get_user_model
 from rest_framework import generics
 from borrowings.models import Borrowing
 from borrowings.serializers import BorrowingSerializer, BorrowingDetailSerializer
 
 
-class BorrowingListView(generics.ListAPIView):
+class BorrowingListView(generics.ListCreateAPIView):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
 
