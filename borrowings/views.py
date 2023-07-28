@@ -1,4 +1,5 @@
 from django.db.models import QuerySet
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from borrowings.models import Borrowing
@@ -23,6 +24,25 @@ class BorrowingListView(generics.ListCreateAPIView):
         if not self.request.user.is_staff:
             queryset = queryset.filter(user_id=self.request.user.id)
         return queryset.all()
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="is_active",
+                description="Filter by not returned books",
+                required=False,
+                type=str,
+            ),
+            OpenApiParameter(
+                name="user_id",
+                description="Filter by user id (only for admins)",
+                required=False,
+                type=str,
+            ),
+        ]
+    )
+    def get(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class BorrowingDetailView(generics.RetrieveAPIView):
