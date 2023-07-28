@@ -92,6 +92,22 @@ class AuthenticatedBorrowingTest(TestCase):
 
         self.assertEquals(len(response.data), 2)
 
+    def test_can_not_borrow_a_book(self) -> None:
+        Book.objects.create(
+            title="test",
+            author="test",
+            cover="SOFT",
+            inventory=0,
+            daily_fee=2.99,
+        )
+        borrowing = {
+            "expected_return_date": datetime.now(),
+            "book_id": 1
+        }
+        response = self.client.post(BORROWING_LIST_URL, borrowing)
+
+        self.assertEquals(list(response.data.keys()), ["non_field_errors"])
+
 
 class AdminBorrowingTest(TestCase):
     def setUp(self) -> None:
