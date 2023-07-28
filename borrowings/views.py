@@ -19,10 +19,10 @@ class BorrowingListView(generics.ListCreateAPIView):
         if is_active:
             queryset = queryset.filter(actual_return_date=None)
         if user_id and self.request.user.is_staff:
-            queryset = queryset.filter(user_id=user_id)
+            queryset = queryset.filter(owner=user_id)
 
         if not self.request.user.is_staff:
-            queryset = queryset.filter(user_id=self.request.user.id)
+            queryset = queryset.filter(owner=self.request.user.id)
         return queryset.all()
 
     @extend_schema(
