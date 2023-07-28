@@ -8,7 +8,13 @@ from library_service_tel_bot import send_notification
 class BorrowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrowing
-        fields = ("borrow_date", "expected_return_date", "actual_return_date", "book_id", "user_id")
+        fields = (
+            "borrow_date",
+            "expected_return_date",
+            "actual_return_date",
+            "book_id",
+            "user_id",
+        )
         read_only_fields = ("user_id", "borrow_date")
 
     def validate(self, data):
@@ -35,4 +41,10 @@ class BorrowingDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Borrowing
-        fields = ("borrow_date", "expected_return_date", "actual_return_date", "book_id", "user_id")
+        fields = (
+            "borrow_date",
+            "expected_return_date",
+            "actual_return_date",
+            "book_id",
+            "user_id",
+        )
