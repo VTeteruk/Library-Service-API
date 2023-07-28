@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from books.models import Book
 from borrowings.models import Borrowing
+from library_service_tel_bot import send_notification
 
 
 class BorrowingSerializer(serializers.ModelSerializer):
@@ -23,6 +24,8 @@ class BorrowingSerializer(serializers.ModelSerializer):
         book = Book.objects.get(id=validated_data["book_id"].id)
         book.inventory -= 1
         book.save()
+
+        send_notification(validated_data.get("expected_return_date"), book.__str__())
 
         return Borrowing.objects.create(**validated_data)
 
