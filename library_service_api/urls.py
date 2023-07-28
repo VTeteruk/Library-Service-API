@@ -23,5 +23,6 @@ urlpatterns = [
     path("api/", include("books.urls", namespace="books")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("api/", include("users.urls", namespace="users"))
+    path("api/", include("users.urls", namespace="users")),
+    path("api/", include("borrowings.urls", namespace="borrowings"))
 ]
