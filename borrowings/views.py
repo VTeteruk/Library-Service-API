@@ -48,3 +48,4 @@ class BorrowingListView(generics.ListCreateAPIView):
 class BorrowingDetailView(generics.RetrieveAPIView):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingDetailSerializer
+    permission_classes = (IsAuthenticated,)
