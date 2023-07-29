@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from books.models import Book
 from borrowings.models import Borrowing
 from library_service_tel_bot import send_notification
 
