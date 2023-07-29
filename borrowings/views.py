@@ -1,7 +1,12 @@
+from datetime import datetime
+
 from django.db.models import QuerySet
 from drf_spectacular.utils import extend_schema, OpenApiParameter
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from borrowings.models import Borrowing
 from borrowings.serializers import BorrowingSerializer, BorrowingDetailSerializer
 
@@ -49,3 +54,33 @@ class BorrowingDetailView(generics.RetrieveAPIView):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingDetailSerializer
     permission_classes = (IsAuthenticated,)
+
+
+class ReturnBookView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    @staticmethod
+    def get(request, pk, *args, **kwargs):
+        try:
+            borrowing = Borrowing.objects.get(pk=pk)
+        except Borrowing.DoesNotExist:
+            return Response({"error": "Borrowing not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        if not request.user.is_staff and borrowing.owner != request.user:
+            return Response(
+                {"error": "You don't have permission to return this book"},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        if borrowing.actual_return_date is not None:
+            return Response(
+                {"error": "This book has already been returned"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        borrowing.actual_return_date = datetime.now()
+        borrowing.save()
+
+        return Response(
+            {"message": "Book returned successfully"}, status=status.HTTP_200_OK
+        )
